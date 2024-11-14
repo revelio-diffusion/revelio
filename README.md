@@ -1,6 +1,6 @@
 # Revelio: Interpreting and Leveraging Visual Semantic Information in Diffusion Models
 
-### 🔗 [Demo Webpage for Visualizations](https://revelio25.netlify.app/)
+### 🔗 [Demo Webpage for Visualizations](https://revelio-diffusion.github.io/revelio/)
 
 ---
 
