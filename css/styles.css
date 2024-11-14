@@ -1,0 +1,694 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Roboto:wght@300;400;500;700&display=swap');
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #444;
+    background-color: #fff;
+}
+
+/* Container */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header Styles */
+header {
+    background-color: #fff;
+    box-shadow: 0 1px 0 rgba(55, 53, 47, 0.09);
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
+
+header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #444;
+}
+
+.logo img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.logo span {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 25px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #444;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #000;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background-color: #444;
+    margin: 4px;
+    transition: all 0.3s;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center;
+    padding: 120px 0 80px;
+    background-color: #fff;
+    color: #444;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.hero .container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.hero-content {
+    flex: 1;
+    min-width: 280px;
+}
+
+.hero h1 {
+    font-size: 2.8em;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.hero .btn {
+    background-color: #333; /* Softer dark gray instead of pure black */
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.hero .btn:hover {
+    background-color: #555; /* Slightly lighter shade on hover */
+    color: #fff;
+}
+
+
+/* Hero Image Hover and Modal */
+/* Add shadow to hero image */
+.hero-image img {
+    margin-left: 20px;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Adding shadow */
+}
+
+
+.hero-image img:hover {
+    transform: scale(1.05);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 15, 15, 0.8);
+    overflow: auto;
+}
+
+.modal-content {
+    position: relative;
+    margin: 5% auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 700px;
+    border-radius: 12px;
+    background-color: #fff;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #444;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-modal:hover {
+    color: #000;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Feature Visualization Grid */
+.feature-viz-grid {
+    padding: 60px 0;
+    margin-top: 60px;
+}
+
+.feature-viz-grid h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.feature-viz-grid p {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #666;
+}
+
+/* Original image container */
+.original-image-container {
+    text-align: center; /* Center the original image */
+    margin-bottom: 30px; /* Space between the text and the image */
+}
+
+.original-image-container img {
+    width: 350px; /* Smaller size for the original image */
+    height: 350px;
+    border-radius: 8px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+}
+
+/* Adjust the size of the main grid items */
+.grid-item {
+    position: relative;
+    overflow: visible; /* Allow preview images to extend beyond the grid item */
+    width: 250px; /* Larger size of main feature image */
+    height: 250px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.grid-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s;
+}
+
+.grid-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Preview images container positioned around the main image */
+.grid-item .preview-images {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none; /* Hidden by default */
+    pointer-events: none;
+    width: 300px;
+    height: 300px;
+}
+
+/* Show preview images container on hover */
+.grid-item:hover .preview-images {
+    display: block;
+}
+
+/* Styling each preview image and positioning it around the main image */
+.preview-images img {
+    position: absolute;
+    width: 100px; /* Increased size for cluster images */
+    height: 100px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Positioning each preview image around the main image in a circular pattern */
+.preview-images img:nth-child(1) {
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.preview-images img:nth-child(2) {
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.preview-images img:nth-child(3) {
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.preview-images img:nth-child(4) {
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.preview-images img:nth-child(5) {
+    top: 0;
+    left: 0;
+}
+
+.preview-images img:nth-child(6) {
+    top: 0;
+    right: 0;
+}
+
+.preview-images img:nth-child(7) {
+    bottom: 0;
+    left: 0;
+}
+
+.preview-images img:nth-child(8) {
+    bottom: 0;
+    right: 0;
+}
+
+
+
+.grid-item .overlay {
+    pointer-events: none;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(0deg, rgba(15, 15, 15, 0.7) 0%, transparent 100%);
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Styling for the image above the grid */
+.above-grid-image {
+    width: 80%;
+    max-width: 80%;
+    height: auto;
+    display: block;
+    margin: 40px auto;
+}
+
+.overlay .text {
+    font-size: 1em;
+    font-weight: 500;
+}
+
+/* How It Works Section */
+.how-it-works {
+    padding: 60px 0;
+    background-color: #f5f5f5;
+}
+
+.how-it-works h2 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.how-it-works .content {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.how-it-works .text {
+    flex: 1;
+    min-width: 280px;
+}
+
+.how-it-works .text p {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.how-it-works .text ul {
+    list-style: disc inside;
+    color: #555;
+}
+
+.how-it-works .image {
+    flex: 1;
+    min-width: 280px;
+    text-align: center;
+}
+
+.how-it-works .image img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Use a modern, minimal font */
+body {
+    font-family: "Inter", "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+}
+.about {
+    padding: 40px 20px;
+    margin: 60px auto;
+    max-width: 800px; /* Limits the width for better readability */
+}
+
+.about h2 {
+    font-size: 2em;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center; /* Center-align the heading */
+}
+
+.about p {
+    font-size: 1.1em;
+    line-height: 1.75;
+    color: #555;
+    text-align: justify; /* Justify text for a clean alignment */
+    margin: 0 auto 20px; /* Adds spacing below the paragraph */
+}
+
+
+/* Footer Styles */
+footer {
+    background-color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    color: #777;
+}
+
+footer .socials {
+    margin-top: 10px;
+}
+
+footer .socials a {
+    color: #444;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: 500;
+}
+
+footer .socials a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    header .container {
+        flex-wrap: wrap;
+    }
+
+    nav {
+        display: none;
+        width: 100%;
+    }
+
+    nav ul {
+        flex-direction: column;
+        background-color: #fff;
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    nav.active {
+        display: block;
+    }
+
+    .hero {
+        padding: 100px 0 60px;
+        text-align: center;
+    }
+
+    .hero-content, .hero-image {
+        flex: 1 1 100%;
+    }
+
+    .hero h1 {
+        font-size: 2.2em;
+    }
+
+    .hero-image {
+        margin-top: 30px;
+    }
+
+    .how-it-works .content {
+        flex-direction: column;
+    }
+
+    .grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.8em;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 15, 15, 0.8);
+    overflow: auto;
+}
+
+.modal-content {
+    position: relative;
+    margin: 5% auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 700px;
+    border-radius: 12px;
+    background-color: #fff;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #444;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+/* Adds a separator below each image */
+.modal-image {
+    display: block;
+    width: 100%;
+    padding: 10px; /* Padding inside each image for spacing */
+    border-radius: 8px;
+    margin-bottom: 10px; /* Space between each image */
+}
+
+.modal-image:last-child {
+    margin-bottom: 0;
+    border-bottom: none; /* Remove separator after the last image */
+}
+
+
+.close-modal:hover {
+    color: #000;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Styles for Feature Modal Content */
+#featureModalImages img {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+/* Ensure the overlay does not intercept pointer events */
+.overlay {
+    pointer-events: none;
+}
+
+.overlay .text {
+    pointer-events: none;
+}
+
+/* Optional: If you want the text in the overlay to be clickable */
+.overlay .text {
+    pointer-events: auto;
+}
+
+/* Divider Line */
+.section-divider {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1); /* soft gray */
+    margin: 40px 0;
+}
+
+
+.text-box {
+    width: 100%;             /* Full width */
+    max-width: none;         /* Remove any max-width constraints */
+    padding: 0;              /* Remove padding */
+    margin: 0;               /* Remove margins */
+    box-sizing: border-box;  /* Include padding and border in the element's total width */
+}
+
+.text-box h2 {
+    font-size: 2em;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.text-box p {
+    font-size: 1em;
+    line-height: 1.6;
+    color: #555;
+    margin: 0 0 20px 0;
+    text-align: left;
+}
+
+.social-links {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 1em;
+}
+
+.icon {
+    font-size: 1.2em;
+    color: #4a4a4a;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-links a {
+    text-decoration: none;
+    color: #4a4a4a;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.social-links a:hover .icon, 
+.social-links a:hover {
+    color: #1a1a1a;
+    transform: scale(1.05);
+}

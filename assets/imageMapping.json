@@ -1,0 +1,11 @@
+{
+    "bottleneck": [
+        "assets/caltech101/sd15/bottleneck/t25/534.png",
+        "assets/caltech101/sd15/bottleneck/t25/2874.png",
+        "assets/caltech101/sd15/bottleneck/t25/2958.png"
+    ],
+    "category2": [
+        "assets/caltech101/sd15/bottleneck/t25/534.png",
+        "assets/caltech101/sd15/bottleneck/t25/534.png"
+    ]
+}
