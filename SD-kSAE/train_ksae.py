@@ -12,12 +12,9 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 os.environ["WANDB__SERVICE_WAIT"] = "300"
 
 cfg = SDSAERunnerConfig(
-    
-    image_size = 512,
-    model_name_proc = "openai/clip-vit-large-patch14",
-    model_name = 'caltech101/SD15/timestep_500',
+    model_name = 'caltech101/SD15/timestep_500',    
     layer_name = "mid",
-    feature_dir = 'feature/SD15/Caltech101/step500_mid_k32',
+    feature_dir = 'feature/SD15/Caltech101/step500_mid',
     module_name = "mid_block",
     dataset_path = "dpdl-benchmark/caltech101",
     use_cached_activations = True,
