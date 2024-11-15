@@ -1,10 +1,15 @@
 import torch
-from transformers import CLIPProcessor, CLIPTextModel
+import torch.nn as nn
+from transformers import CLIPTokenizer, CLIPModel, CLIPTextModel
 from typing import Callable
 from contextlib import contextmanager
-from typing import List, Tuple
+from typing import List, Union, Dict, Tuple
 from functools import partial
-from diffusers import AutoencoderKL, DDPMScheduler, UNet2DConditionModel
+from torch.nn import functional as F
+from diffusers import AutoencoderKL, DDPMScheduler, StableDiffusionPipeline, UNet2DConditionModel
+import sys
+import os
+
 
 class Hook():
   def __init__(self, module_name: str, hook_fn: Callable, return_module_output = True):
@@ -43,24 +48,21 @@ class Hook():
 
 
 class HookedStableDiffusion():
-  def __init__(self, model_name: str, model_name_proc:str, image_width:int, device = 'cuda'):
-    model, processor, vae, text_encoder, noise_scheduler = self.get_models(model_name, model_name_proc, image_width)
+  def __init__(self, model_name: str, image_width:int, device = 'cuda'):
+    model, tokenizer, vae, text_encoder, noise_scheduler = self.get_model(model_name, image_width)
     self.model = model.to(device)
-    self.processor = processor
+    self.tokenizer = tokenizer
     self.vae = vae.to(device)
     self.text_encoder = text_encoder.to(device)
     self.noise_scheduler = noise_scheduler
 
-  def get_models(self, model_name, model_name_proc, image_width):
-    vae = AutoencoderKL.from_pretrained(model_name, subfolder="vae", revision=None, variant=None).requires_grad_(False)
-    processor = CLIPProcessor.from_pretrained(model_name_proc)
+  def get_model(self, model_name, image_width):
     model = UNet2DConditionModel.from_pretrained(model_name, subfolder="unet").requires_grad_(False)
+    tokenizer = CLIPTokenizer.from_pretrained(model_name, subfolder="tokenizer", revision=None)
+    vae = AutoencoderKL.from_pretrained(model_name, subfolder="vae", revision=None, variant=None).requires_grad_(False)
     text_encoder = CLIPTextModel.from_pretrained(model_name, subfolder="text_encoder")
-    processor.image_processor.crop_size ={'height': image_width, 'width': image_width}  
-    processor.image_processor.image_mean =0.5
-    processor.image_processor.image_std = 0.5
     noise_scheduler = DDPMScheduler.from_pretrained(model_name, subfolder="scheduler")
-    return model, processor, vae, text_encoder, noise_scheduler
+    return model, tokenizer, vae, text_encoder, noise_scheduler
 
   def run_with_cache(self, list_of_hook_locations: List[Tuple[int,str]], *args, return_type = "output", **kwargs):
     cache_dict, list_of_hooks = self.get_caching_hooks(list_of_hook_locations)
@@ -96,7 +98,7 @@ class HookedStableDiffusion():
     if return_type=="output":
       return output
     else:
-      raise Exception(f"Unrecognised keyword argument return_type='{return_type}'. Must be either 'output' or 'loss'.")
+      raise Exception(f"Unrecognised keyword argument return_type='{return_type}'. Must be either 'output'.")
     
 
   @contextmanager
