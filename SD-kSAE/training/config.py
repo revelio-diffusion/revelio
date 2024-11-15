@@ -17,8 +17,10 @@ class SDSAERunnerConfig():
     feature_dir: str = None
     layer_name:str = None
     block_layer: int = 10
-    dataset_path: str = "evanarlian/imagenet_1k_resized_256"
+    dataset_name: str = "evanarlian/imagenet_1k_resized_256"
     use_cached_activations: bool = False
+    block_name :str = 'mid_block'
+    image_key: str = 'image'
 
     # SAE Parameters
     d_in: int = 768
@@ -54,6 +56,7 @@ class SDSAERunnerConfig():
     # Misc
     checkpoint_path: str = "checkpoints"
     max_batch_size: int = 32
+    save_path: str = 'feature'
     def __post_init__(self):
         
         self.d_sae = self.d_in * self.expansion_factor
@@ -73,6 +76,7 @@ class SDSAERunnerConfig():
         print(
             f"Run name: {self.d_sae}-LR-{self.lr}-Tokens-{self.total_training_tokens:3.3e}"
         )
+        # Print out some useful info:
 
         total_training_steps = self.total_training_tokens // self.batch_size
         print(f"Total training steps: {total_training_steps}")
@@ -80,5 +84,3 @@ class SDSAERunnerConfig():
         total_wandb_updates = total_training_steps // self.wandb_log_frequency
         print(f"Total wandb updates: {total_wandb_updates}")
         
-
-
