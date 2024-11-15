@@ -13,6 +13,7 @@
 - **`SD-KSAE/`**  
   *Experiments with K-Sparse Autoencoders (K-SAE) on Diffusion Features*
   > Extract features: `python extract_feature.py`
+  
   > train k-SAE: `python train_ksae.py`
   
 - **`LLaVA_Diffusion/`**  
