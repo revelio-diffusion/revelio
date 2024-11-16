@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta and Title -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revelio - Interactive Image Exploration</title>
+
+    <!-- Fonts and Icons -->
+    <link rel="icon" href="assets/lens_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css"> <!-- Main Styles -->
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- JavaScript for Interactivity -->
+    <script src="js/custom.js" defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="assets/icons8-search-128.png" alt="Revelio Logo">
+                <span>Revelio</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#explore">Explore</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="https://github.com/" target="_blank">GitHub</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Revelio: Interpreting and leveraging visual semantic information in diffusion models</h1>
+                <p>Explore how rich visual semantic information is represented within various layers and denoising timesteps of different diffusion architectures.</p>
+                <a href="#explore" class="btn">Start Exploring</a>
+            </div>
+            <div class="hero-image">
+                <img src="assets/main.jpg" alt="Abstract visualization" id="heroImage">
+            </div>
+        </div>
+
+        <!-- Hero Image Modal -->
+        <div id="imageModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" id="closeModal">&times;</span>
+                <img src="assets/main.jpg" alt="Abstract visualization - larger view">
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider Line -->
+    <hr class="section-divider">
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Revelio</h2>
+            <p>We study how rich visual semantic information is represented within various layers and denoising timesteps of different diffusion architectures. We uncover monosemantic interpretable features by leveraging k-sparse autoencoders (k-SAE). We substantiate our mechanistic interpretations via transfer learning using light-weight classifiers on off-the-shelf diffusion models' features. On 4 datasets, we demonstrate the effectiveness of diffusion features for representation learning. We provide in-depth analysis of how different diffusion architectures, pre-training datasets, and language model conditioning impacts visual representation granularity, inductive biases, and transfer learning capabilities. Our work is a critical step towards deepening our interpretability of black-box diffusion models.</p>
+        </div>
+    </section>
+    
+
+    <!-- Divider Line -->
+    <hr class="section-divider">
+
+    <!-- Image above Interactive Image Grid -->
+    <div class="container">
+        <img src="assets/figure2.jpg" alt="Figure 2" class="above-grid-image">
+    </div>
+
+    <!-- Divider Line -->
+    <hr class="section-divider">
+
+    <!-- Feature Visualization Grid -->
+    <section id="explore" class="feature-viz-grid">
+        <div class="container">
+            <h2>Interactive Image Grid</h2>
+            <p>Click on an image to explore what the layer captures</p>
+            <div class="original-image-container">
+                <img src="assets/pca_maps/org_img.png" alt="Original Image">
+            </div>
+            <div class="grid">
+                <!-- Each grid item -->
+                <div class="grid-item" data-info="bottleneck" data-preview="assets/oxfordpets/sd15/step25_mid_k32/351.png,
+                assets/oxfordpets/sd15/step25_mid_k32/3953.png,
+                assets/oxfordpets/sd15/step25_mid_k32/6322.png,
+                assets/oxfordpets/sd15/step25_mid_k32/7206.png,
+                assets/oxfordpets/sd15/step25_mid_k32/20162.png,
+                assets/oxfordpets/sd15/step25_mid_k32/21466.png,
+                assets/oxfordpets/sd15/step25_mid_k32/30711.png,
+                assets/oxfordpets/sd15/step25_mid_k32/38704.png">
+                    <img src="assets/pca_maps/bottleneck.png" alt="Bottleneck Image">
+                    <div class="overlay">
+                        <div class="text">Bottleneck</div>
+                    </div>
+                </div>
+                <div class="grid-item" data-info="up_ft0" data-preview="assets/oxfordpets/sd15/step25_up0_k32/419.png,
+                assets/oxfordpets/sd15/step25_up0_k32/18581.png,
+                assets/oxfordpets/sd15/step25_up0_k32/23378.png,
+                assets/oxfordpets/sd15/step25_up0_k32/23496.png,
+                assets/oxfordpets/sd15/step25_up0_k32/32770.png,
+                assets/oxfordpets/sd15/step25_up0_k32/37490.png,
+                assets/oxfordpets/sd15/step25_up0_k32/39232.png,
+                assets/oxfordpets/sd15/step25_up0_k32/41164.png,
+                assets/oxfordpets/sd15/step25_up0_k32/55603.png,
+                assets/oxfordpets/sd15/step25_up0_k32/57689.png">
+                    <img src="assets/pca_maps/up_ft0.png" alt="Up_ft0 Image">
+                    <div class="overlay">
+                        <div class="text">Up_ft0</div>
+                    </div>
+                </div>
+                <div class="grid-item" data-info="up_ft1" data-preview="assets/oxfordpets/sd15/step25_up1_k32/7333.png,
+                assets/oxfordpets/sd15/step25_up1_k32/8342.png,
+                assets/oxfordpets/sd15/step25_up1_k32/9841.png,
+                assets/oxfordpets/sd15/step25_up1_k32/10466.png,
+                assets/oxfordpets/sd15/step25_up1_k32/29655.png,
+                assets/oxfordpets/sd15/step25_up1_k32/31487.png,
+                assets/oxfordpets/sd15/step25_up1_k32/41566.png,
+                assets/oxfordpets/sd15/step25_up1_k32/44255.png,
+                assets/oxfordpets/sd15/step25_up1_k32/45549.png,
+                assets/oxfordpets/sd15/step25_up1_k32/71889.png,
+                assets/oxfordpets/sd15/step25_up1_k32/78282.png,
+                assets/oxfordpets/sd15/step25_up1_k32/79494.png">
+                    <img src="assets/pca_maps/up_ft1.png" alt="Up_ft1 Image">
+                    <div class="overlay">
+                        <div class="text">Up_ft1</div>
+                    </div>
+                </div>
+                <div class="grid-item" data-info="up_ft2" data-preview="assets/oxfordpets/sd15/step25_up2_k32/3736.png,
+                assets/oxfordpets/sd15/step25_up2_k32/3768.png,
+                assets/oxfordpets/sd15/step25_up2_k32/4192.png,
+                assets/oxfordpets/sd15/step25_up2_k32/5771.png,
+                assets/oxfordpets/sd15/step25_up2_k32/6164.png,
+                assets/oxfordpets/sd15/step25_up2_k32/11124.png,
+                assets/oxfordpets/sd15/step25_up2_k32/13737.png,
+                assets/oxfordpets/sd15/step25_up2_k32/21391.png,
+                assets/oxfordpets/sd15/step25_up2_k32/22997.png,
+                assets/oxfordpets/sd15/step25_up2_k32/30284.png,
+                assets/oxfordpets/sd15/step25_up2_k32/30507.png,
+                assets/oxfordpets/sd15/step25_up2_k32/32226.png,
+                assets/oxfordpets/sd15/step25_up2_k32/33804.png,
+                assets/oxfordpets/sd15/step25_up2_k32/36898.png,
+                assets/oxfordpets/sd15/step25_up2_k32/39961.png,
+                assets/oxfordpets/sd15/step25_up2_k32/40355.png">
+                    <img src="assets/pca_maps/up_ft2.png" alt="Up_ft2 Image">
+                    <div class="overlay">
+                        <div class="text">Up_ft2</div>
+                    </div>
+                </div>
+                <!-- Add more grid items as needed -->
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- Feature Modal for Interactive Image Grid -->
+    <div id="featureModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeFeatureModal">&times;</span>
+            <h2 id="featureModalTitle"></h2>
+            <p id="featureModalDescription"></p>
+            <div id="featureModalImages"></div>
+        </div>
+    </div>
+
+    <!-- Divider Line -->
+    <hr class="section-divider">
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Revelio Project. All rights reserved.</p>
+            <div class="socials">
+                <a href="https://github.com/" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

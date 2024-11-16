@@ -1,0 +1,77 @@
+:root {
+    --boussole-width: 275px;
+    --boussole-height: 150px;
+    --top-anchor: 250px;
+    --right-anchor: 20px;
+}
+
+.boussole-importance {
+    position: fixed;
+    top: var(--top-anchor);
+    height: var(--boussole-height);
+    width: var(--boussole-width);
+    right: var(--right-anchor);
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 3%;
+    padding: 5px;
+    z-index: 5;
+}
+
+.concept-proximity {
+    position: fixed;
+    height: var(--boussole-height);
+    width: var(--boussole-width);
+    top: calc(var(--top-anchor) + var(--boussole-height) + 10px);
+    right: var(--right-anchor);
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 3%;
+    padding: 5px;
+    z-index: 5;
+}
+
+.classes-proximity {
+    position: fixed;
+    height: var(--boussole-height);
+    width: var(--boussole-width);
+    top: calc(var(--top-anchor) + 2 * var(--boussole-height) + 20px);
+    right: var(--right-anchor);
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 3%;
+    padding: 4px 10px;
+    z-index: 100;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+    border: solid 2px white;
+    font-size: 12px;
+    color: var(--dark) !important;
+    z-index: 5;
+}
+
+.image-hover {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 3%;
+    border: solid 5px var(--dark);
+    overflow: hidden;
+    z-index: 2;
+    display: none;
+}
+
+.image-hover img {
+    width: 100px;
+    height: 100px;
+}
+
+.strategic-cluster {
+    border: solid 2px var(--primary);
+    border-radius: 5px;
+    padding-left: 100px;
+}
