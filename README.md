@@ -10,8 +10,8 @@ We study rich visual semantic information is represented within various layers a
 
 ---
 
-<img src="./assets/main.jpg" alt="Revelio" width="50%">
-<img src="./assets/figure2.jpg" alt="Revelio Figure 2" width="50%">
+<img src="./assets/main.jpg" alt="Revelio" width="100%">
+<img src="./assets/figure2.jpg" alt="Revelio Figure 2" width="100%">
 
 ---
 
