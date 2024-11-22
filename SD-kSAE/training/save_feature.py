@@ -19,7 +19,7 @@ def save_highest_activating_images_high(max_activating_image_indices, max_activa
     number_of_neurons, number_of_max_activating_examples = max_activating_image_values.size()
 
     num_activating = sae_sparsity * len(dataset)
-    _, neurons = topk(sae_mean_acts * (num_activating > 10), k=100)
+    # _, neurons = topk(sae_mean_acts * (num_activating > 10), k=100)
     
     for neuron in tqdm(neurons, desc = "saving highest activating images"):
         neuron_dead = True
@@ -40,7 +40,7 @@ def get_new_top_k(first_values, first_indices, second_values, second_indices, k)
     return new_values, new_indices
 
 @torch.inference_mode()
-def get_feature_data(
+def safe_features(
     k_sparse_autoencoder: KSparseAutoencoder,
     activation_store: SDActivationsStore,
     number_of_images: int = 32_768,
