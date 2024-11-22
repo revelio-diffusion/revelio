@@ -7,10 +7,6 @@ from training.sd_runner import sd_ksae_runner
 from training.save_feature import get_feature_data
 from training.sd_activations_store import SDActivationsStore
 
-
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-os.environ["WANDB__SERVICE_WAIT"] = "300"
-
 cfg = SDSAERunnerConfig(
     model_name = 'caltech101/SD15/timestep_500',    
     layer_name = "mid",
