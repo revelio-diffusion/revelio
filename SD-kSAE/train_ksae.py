@@ -55,5 +55,3 @@ get_feature_data(
     number_of_images = 24790,
     number_of_max_activating_images = 20,
 )
-
-print("*****Done*****")
