@@ -30,7 +30,7 @@ class ImageDataset(Dataset):
 
     def __getitem__(self, idx):
         # Load the image from the dataset
-        raw_image = self.dataset[idx][self.image_key]
+        raw_image = self.dataset[idx][self.image_key].convert("RGB")
         
         # Preprocess the image into a tensor
         processed_image = self.preprocess(raw_image)
