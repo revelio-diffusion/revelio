@@ -51,9 +51,9 @@ def safe_features(
     torch.cuda.empty_cache()
     k_sparse_autoencoder.eval()
     
-    dataset = load_dataset(k_sparse_autoencoder.cfg.dataset_path, split="train")
+    dataset = load_dataset(k_sparse_autoencoder.cfg.dataset_name, split="train")
 
-    if k_sparse_autoencoder.cfg.dataset_path=="cifar100": # Need to put this in the cfg
+    if k_sparse_autoencoder.cfg.dataset_name=="cifar100": # Need to put this in the cfg
         image_key = 'img'
     else:
         image_key = 'image'
