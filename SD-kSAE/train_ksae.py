@@ -191,7 +191,6 @@ def parse_args():
 def args_to_config(args):
     return SDSAERunnerConfig(
         model_name=args.model_name,
-        layer_name=args.layer_name,
         feature_dir=args.feature_dir,
         module_name=args.module_name,
         dataset_name=args.dataset_name,
