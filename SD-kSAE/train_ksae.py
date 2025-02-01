@@ -7,7 +7,6 @@ from training.save_feature import save_features
 from training.sd_activations_store import SDActivationsStore
 import wandb
 import re
-from training.utils import SDkSAEloader
 from torch.optim import Adam
 from tqdm import tqdm
 import torch.nn as nn
@@ -120,9 +119,9 @@ def train_ksae_on_sd(
     return k_sparse_autoencoder
 
 def sd_ksae_runner(cfg):
-    loader = SDkSAEloader(cfg)
-    k_sparse_autoencoder, activations_loader = loader.load_session()
-
+    activations_loader = SDActivationsStore(cfg)
+    k_sparse_autoencoder = KSparseAutoencoder(cfg)
+    
     if cfg.log_to_wandb:
         wandb.init(project=cfg.wandb_project, config=cfg, name=cfg.run_name)
     
