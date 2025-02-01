@@ -111,7 +111,7 @@ if __name__ == "__main__":
     dataset_short = args.dataset_name.split('/')[-1]
     if args.save_path is None:
         model_short = args.model_name.split('/')[-1].replace('stable-diffusion-', 'SD')
-        args.save_path = f"{args.dataset_name}/{model_short}/timestep_{args.timestep}/{args.block_name}"
+        args.save_path = f"{model_short}/{model_short}/timestep_{args.timestep}/{args.block_name}"
 
     cfg = SDSAERunnerConfig(
         image_size=args.image_size,
