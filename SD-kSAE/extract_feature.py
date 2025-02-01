@@ -1,4 +1,5 @@
 from training.hooked_sd import HookedStableDiffusion
+import argparse
 import logging
 import os
 import numpy as np
@@ -87,25 +88,44 @@ def get_model_activations(model, inputs, cfg):
     return activations
 
 
+def parse_arguments():
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(description="Extract activations from a Stable Diffusion model using a given dataset.")
+    parser.add_argument("--image_size", type=int, default=256, help="Size of input images.")
+    parser.add_argument("--model_name", type=str, default="runwayml/stable-diffusion-v1-5", help="Name of the diffusion model to use.")
+    parser.add_argument("--timestep", type=int, default=25, help="Timestep for the diffusion process.")
+    parser.add_argument("--block_name", type=str, default="mid_block", help="Which block to extract activations from. Options: 'mid_block' (bottleneck), 'up_blocks.0' (up_ft0), 'up_blocks.1' (up_ft1), 'up_blocks.2' (up_ft2)")
+    parser.add_argument("--image_key", type=str, default="image")
+    parser.add_argument("--dataset_name", type=str, default="dpdl-benchmark/caltech101", help="Dataset to use for feature extraction. Options: 'timm/oxford-iiit-pet' (OxfordPet), 'evanarlian/imagenet_1k_resized_256' (ImageNet)")
+    parser.add_argument("--max_batch_size", type=int, default=32, help="Maximum batch size to save.")
+    parser.add_argument("--save_path", type=str, default=None, help="Path to save extracted features. If not specified, it will be generated automatically.")
+
+    return parser.parse_args()
+
 if __name__ == "__main__":
+    args = parse_arguments()
+
     device = "cuda" if torch.cuda.is_available() else "cpu"
     logging.info(f"Using device: {device}")
+    
+    dataset_short = args.dataset_name.split('/')[-1]
+    if args.save_path is None:
+        model_short = args.model_name.split('/')[-1].replace('stable-diffusion-', 'SD')
+        args.save_path = f"{args.dataset_name}/{model_short}/timestep_{args.timestep}/{args.block_name}"
 
-        
     cfg = SDSAERunnerConfig(
-        image_size = 256,
-        model_name = "runwayml/stable-diffusion-v1-5",
-        timestep = 25,
-        block_name = "mid_block",    # "mid_block" for bottleneck, "up_blocks.1" for up_ft1, "up_blocks.2" for up_ft2 
-        image_key = 'image',         
-        dataset_name = "dpdl-benchmark/caltech101",
-        max_batch_size = 32,
-        save_path = f'caltech101/SD15/timestep_25/mid', # path to save feature
-        device = device,
-        )
+        image_size=args.image_size,
+        model_name=args.model_name,
+        timestep=args.timestep,
+        block_name=args.block_name,
+        image_key=args.image_key,
+        dataset_name=args.dataset_name,
+        max_batch_size=args.max_batch_size,
+        save_path=args.save_path,
+        device=device,
+    )
 
     model = HookedStableDiffusion(cfg.model_name, cfg.image_size, cfg.device)   # load model
     model.eval()
     dataset = load_dataset(cfg.dataset_name, split="train") 
     process_batches(model, dataset, cfg)
-
