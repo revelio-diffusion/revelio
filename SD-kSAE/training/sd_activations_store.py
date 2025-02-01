@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader, Dataset
 from training.config import SDSAERunnerConfig
 
 class CustomFeatureDataset(Dataset):
-    def __init__(self, dataset_dir, layer_dir):
+    def __init__(self, dataset_dir):
         """
         Custom dataset that preloads features and labels from .npy files into memory.
         
@@ -13,7 +13,7 @@ class CustomFeatureDataset(Dataset):
             label_dir (str): Path to the directory containing label .npy files.
         """
         self.activations = []
-        self.feature_dir = os.path.join(dataset_dir, layer_dir)
+        self.feature_dir = dataset_dir
         
         # # Load the cached activations and labels
         activation_files = sorted(
@@ -57,7 +57,7 @@ class SDActivationsStore:
     ):
         self.cfg = cfg
         if self.cfg.use_cached_activations:
-            self.feature_dataset = CustomFeatureDataset(self.cfg.model_name, self.cfg.layer_name)
+            self.feature_dataset = CustomFeatureDataset(self.cfg.model_name)
             self.feature_loader = DataLoader(self.feature_dataset, batch_size=self.cfg.batch_size, shuffle=True)
             self.loader_iter = iter(self.feature_loader)
     
