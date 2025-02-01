@@ -108,7 +108,7 @@ if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "cpu"
     logging.info(f"Using device: {device}")
     
-    dataset_short = args.dataset_name.split('/')[-1]
+    dataset_short = args.dataset_name.split('/')[-1] if '/' in args.dataset_name else args.dataset_name
     if args.save_path is None:
         model_short = args.model_name.split('/')[-1].replace('stable-diffusion-', 'SD')
         args.save_path = f"{dataset_short}/{model_short}/timestep_{args.timestep}/{args.block_name}"
