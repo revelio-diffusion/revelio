@@ -154,9 +154,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Parse SDSAERunnerConfig parameters")
 
     # Add arguments with defaults
-    parser.add_argument('--model_name', type=str, default='caltech101/SD15/timestep_500', help="Name of the model")
-    parser.add_argument('--layer_name', type=str, default='mid', help="Name of the layer")
-    parser.add_argument('--feature_dir', type=str, default='feature/SD15/Caltech101/step500_mid', help="Directory for extracted features")
+    parser.add_argument('--model_name', type=str, default='caltech101/SDv1-5/timestep_25/mid_block', help="directory for extracted features to train k-SAE")
+    parser.add_argument('--feature_dir', type=str, default='features/caltech101/SDv1-5/step25_mid', help="Directory for saving features")
     parser.add_argument('--module_name', type=str, default='mid_block', help="Module name")
     parser.add_argument('--dataset_name', type=str, default='dpdl-benchmark/caltech101', help="Huggingface Dataset name")
     parser.add_argument('--use_cached_activations', action='store_true', help="Use cached activations", default=True)
