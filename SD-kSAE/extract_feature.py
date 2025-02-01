@@ -95,12 +95,12 @@ if __name__ == "__main__":
     cfg = SDSAERunnerConfig(
         image_size = 256,
         model_name = "runwayml/stable-diffusion-v1-5",
-        timestep = 500,
+        timestep = 25,
         block_name = "mid_block",    # "mid_block" for bottleneck, "up_blocks.1" for up_ft1, "up_blocks.2" for up_ft2 
         image_key = 'image',         
         dataset_name = "dpdl-benchmark/caltech101",
         max_batch_size = 32,
-        save_path = f'caltech101/SD15/timestep_500/mid', # path to save feature
+        save_path = f'caltech101/SD15/timestep_25/mid', # path to save feature
         device = device,
         )
 
