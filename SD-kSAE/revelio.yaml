@@ -1,4 +1,4 @@
-name: sd-ksae
+name: revelio
 channels:
   - pytorch
   - nvidia
