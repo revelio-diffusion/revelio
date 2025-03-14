@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revelio Analysis Tool</title>
+    <script src="https://unpkg.com/deck.gl@^9.0.0/dist.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #121212;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: #a0a8aa;
+            color: #222;
+            width: 20%;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .sidebar h3 {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .sidebar p {
+            font-size: 1.2em;
+            font-weight: 300;
+            color: #222;
+            line-height: 1.5;
+        }
+
+        #hover-img {
+            width: 100%;
+            height: auto;
+            border: 2px dashed #a6f77b;
+            /* Border to indicate image area */
+            border-radius: 10px;
+            /* Rounded corners */
+            margin-top: 10px;
+        }
+
+        .neuron-img-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .neuron-img {
+            width: 100%;
+            height: auto;
+            border: 2px dashed #a6f77b;
+            /* Border to indicate image area */
+            border-radius: 10px;
+            /* Rounded corners */
+            max-width: calc(33% - 10px);
+            /* Limit the width of the images dynamically */
+        }
+
+        /* Deck.gl Map Container */
+        .plot-container {
+            flex-grow: 1;
+            position: relative;
+            background-color: black;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            background-color: #121212;
+            padding-left: 20px;
+        }
+
+        /* Tooltip Styles */
+        #tooltip {
+            position: absolute;
+            background: white;
+            padding: 10px;
+            border-radius: 3px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            pointer-events: none;
+            font-size: 12px;
+            z-index: 10;
+        }
+
+        .button-link {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            font-size: 1em;
+            font-weight: 600;
+            color: white;
+            background-color: #7a7a7a;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button-link:hover {
+            background-color: #5c5c5c;
+        }
+
+        .toggle-switch {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-switch input[type="checkbox"] {
+            display: none;
+        }
+
+        .toggle-switch label {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch label::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ccc;
+            border-radius: 34px;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-switch label::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 26px;
+            height: 26px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch input[type="checkbox"]:checked+label::before {
+            background-color: #4caf50;
+        }
+
+        .toggle-switch input[type="checkbox"]:checked+label::after {
+            transform: translateX(26px);
+        }
+
+        .slider-container {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .slider-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .slider-container input[type="range"] {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Revelio Analysis Tool</h3>
+        <p>In the image view, explore what images the model was trained on. In the neuron view, explore the top
+            activated neurons and their top activating images.</p>
+        <p><strong>oxford_flowers102_mid_block_500</strong></p>
+        <div class="toggle-switch">
+            <input type="checkbox" id="view-toggle">
+            <label for="view-toggle"></label>
+            <span style="margin-left: 10px;">Toggle Data View / Neuron View</span>
+        </div>
+        <div class="slider-container" id="slider-container" style="display: none;">
+            <label for="point-slider">Number of Points:</label>
+            <input type="range" id="point-slider" min="1" max="1000" value="1000">
+            <span id="slider-value">1000</span>
+        </div>
+        <div id="info" style="margin-top: 20px;">
+        </div>
+        <img id="hover-img" src="" alt="Image will appear here" style="display: none;">
+        <div class="neuron-img-container">
+            <img id="neuron-img-1" class="neuron-img" src="" alt="Neuron 1 image will appear here"
+                style="display: none;">
+            <img id="neuron-img-2" class="neuron-img" src="" alt="Neuron 2 image will appear here"
+                style="display: none;">
+            <img id="neuron-img-3" class="neuron-img" src="" alt="Neuron 3 image will appear here"
+                style="display: none;">
+        </div>
+    </div>
+
+    <!-- Deck.gl Map Container -->
+    <div class="plot-container">
+        <div id="map" style="position: relative;">
+            <div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;"></div><canvas width="2054"
+                height="1313" tabindex="0"
+                style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); outline: none; cursor: grab;"></canvas>
+            <div
+                style="pointer-events: none; position: absolute; overflow: hidden; display: block; left: 0px; top: 0px; width: 2054px; height: 1313px;">
+                <div class="fill" style="position: absolute; z-index: 2; inset: 0px;">
+                    <div class="deck-tooltip"
+                        style="z-index: 1; position: absolute; pointer-events: none; color: rgb(160, 167, 180); background-color: rgb(41, 50, 60); padding: 10px; top: 0px; left: 0px; display: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tooltip" style="display: none; left: 732.261px; top: 712px;">
+            <strong>Value:</strong> Not calculated<br>
+
+            <strong>Rank:</strong> 359<br>
+        </div>
+    </div>
+
+    <script src="./Revelio Analysis Tool_files/image_data.js"></script>
+    <script src="./Revelio Analysis Tool_files/neuron_data.js"></script>
+
+    <script>
+        let deckgl; // Global variable to store the DeckGL instance
+        let dataPoints = []; // Store data view points
+        let neuronPoints = []; // Store neuron view points
+        let preloadedImages = {}; // Store preloaded images
+
+        async function fetchData(view) {
+            console.log("Fetching data for view:", view);
+            if (view === 'neuron') {
+                const data = neurons_data;
+                return data.map((x, i) => ({
+                    position: [x, data.y[i]],
+                    value: data.value[i],
+                    n1: data.n1[i],
+                    n2: data.n2[i],
+                    n3: data.n3[i],
+                    rank: data.rank[i],
+                }));
+            }
+            const data = images_data;
+            // return data.x.map((x, i) => ({
+            return data.map((x, i) => ({
+                position: [x, data.y[i]],
+                color: data.color[i],
+                class: data.class[i],
+                image: data.image[i],
+            }));
+        }
+
+        async function preloadImages(imageList) {
+            for (const image of imageList) {
+                const img = new Image();
+                img.src = `/static/images/${image}`;
+                img.onload = () => console.log(`Image loaded: ${image}`);
+                img.onerror = () => console.error(`Error loading image: ${image}`);
+                preloadedImages[image] = img;
+            }
+        }
+
+        async function preloadData() {
+            dataPoints = images_data;
+            neuronPoints = neurons_data;
+
+            const imageList = dataPoints.map(point => point.image).concat(
+                neuronPoints.flatMap(point => [point.n1, point.n2, point.n3])
+            );
+        }
+
+        function renderDeck(points, view) {
+            const tooltip = document.getElementById('tooltip');
+            const infoElement = document.getElementById('info');
+            const imgElement = document.getElementById('hover-img');
+            const neuronImg1 = document.getElementById('neuron-img-1');
+            const neuronImg2 = document.getElementById('neuron-img-2');
+            const neuronImg3 = document.getElementById('neuron-img-3');
+
+            const scatterplotLayer = new deck.ScatterplotLayer({
+                id: 'scatterplot-layer',
+                data: points,
+                getPosition: d => d.position,
+                getFillColor: d => d.color || [200, 200, 200], // Default color for neuron view
+                getRadius: 100,
+                radiusMinPixels: 4,
+                radiusMaxPixels: 5,
+                pickable: true,
+                onHover: info => {
+                    if (info.object) {
+                        tooltip.style.display = 'block';
+                        tooltip.style.left = `${info.x}px`;
+                        tooltip.style.top = `${info.y}px`;
+                        tooltip.innerHTML = `
+                            ${view === 'neuron' ? `<strong>Value:</strong> ${info.object.value}<br>` : ''}
+                            ${view === 'data' ? `<strong>Class:</strong> ${info.object.class}<br>` : ''}
+                            ${view === 'neuron' ? `<strong>Rank:</strong> ${info.object.rank}<br>` : ''}
+                        `;
+                    } else {
+                        tooltip.style.display = 'none';
+                    }
+                },
+                onClick: info => {
+                    if (info.object && view === 'data') {
+                        const { position, value, class: label, image } = info.object;
+                        infoElement.innerHTML = `
+                            <strong>Class:</strong> ${info.object.class}<br>
+                        `;
+                        imgElement.src = "./Revelio Analysis Tool_files/static/images/" + image;//preloadedImages[image].src;
+                        imgElement.style.display = 'block';
+                        neuronImg1.style.display = 'none';
+                        neuronImg2.style.display = 'none';
+                        neuronImg3.style.display = 'none';
+                    }
+                    if (info.object && view === 'neuron') {
+                        infoElement.innerHTML = `
+                            <strong>Value:</strong> ${info.object.value}<br>
+                            <strong>Activation Rank:</strong> ${info.object.rank}<br>
+                        `;
+                        neuronImg1.src = "./Revelio Analysis Tool_files/static/images/" + info.object.n1;
+                        neuronImg2.src = "./Revelio Analysis Tool_files/static/images/" + info.object.n2;
+                        neuronImg3.src = "./Revelio Analysis Tool_files/static/images/" + info.object.n3;
+
+                        neuronImg1.style.display = 'block';
+                        neuronImg2.style.display = 'block';
+                        neuronImg3.style.display = 'block';
+                        imgElement.style.display = 'none';
+                    }
+                }
+            });
+
+            deckgl.setProps({ layers: [scatterplotLayer] }); // Update layers instead of re-initializing
+        }
+
+        // Initialize Deck.gl only once
+        function initializeDeck() {
+            deckgl = new deck.DeckGL({
+                container: 'map',
+                layers: [],
+                initialViewState: {
+                    longitude: 0,
+                    latitude: 0,
+                    zoom: 2,
+                    minZoom: 0,
+                    maxZoom: 40,
+                    pitch: 0,
+                    bearing: 0
+                },
+                controller: true
+            });
+
+            renderDeck(dataPoints, 'data'); // Load initial data view
+        }
+
+        document.getElementById('view-toggle').addEventListener('change', function () {
+            const view = this.checked ? 'neuron' : 'data';
+            document.getElementById('slider-container').style.display = this.checked ? 'block' : 'none';
+            renderDeck(view === 'neuron' ? neuronPoints : dataPoints, view);
+        });
+
+        document.getElementById('point-slider').addEventListener('input', function () {
+            document.getElementById('slider-value').innerText = this.value;
+            renderDeck(neuronPoints.slice(0, this.value), 'neuron');
+        });
+
+        preloadData().then(initializeDeck);
+
+    </script>
+
+</body>
+
+</html>

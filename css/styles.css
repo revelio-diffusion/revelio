@@ -692,3 +692,9 @@ footer .socials a:hover {
     color: #1a1a1a;
     transform: scale(1.05);
 }
+
+.small-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
