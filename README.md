@@ -1,4 +1,6 @@
-# Revelio: Interpreting and Leveraging Visual Semantic Information in Diffusion Models
+# Revelio: Interpreting and Leveraging Visual Semantic Information in Diffusion Models (ICCV '25)
+Dahye Kim*, Xavier Thomas*, Deepti Ghadiyaram
+
 
 ### 🔗 [Demo Webpage for Visualizations](https://revelio-diffusion.github.io/revelio/)
 
