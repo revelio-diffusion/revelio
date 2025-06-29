@@ -1,4 +1,4 @@
-# Revelio: Interpreting and Leveraging Visual Semantic Information in Diffusion Models (ICCV '25)
+# Revelio: Interpreting and Leveraging Visual Semantic Information in Diffusion Models [ICCV '25]
 Dahye Kim*, Xavier Thomas*, Deepti Ghadiyaram
 
 
